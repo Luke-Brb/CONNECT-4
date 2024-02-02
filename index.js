@@ -1,37 +1,47 @@
-var board = [[' ', ' ', ' ', ' ', ' ', ' ', ' '],
+let board = [[' ', ' ', ' ', ' ', ' ', ' ', ' '],
  [' ', ' ', ' ', ' ', ' ', ' ', ' '],
   [' ', ' ', ' ', ' ', ' ', ' ', ' '],
    [' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' '],
      [' ', ' ', ' ', ' ', ' ', ' ', ' ']];
-var currentPlayer = '1';
-var isGameFinished = 0;
-
+let currentPlayer = '1';
+let isGameFinished = 0;
+let winner = '-';
 window.onload = function() {
-	var player = document.getElementById('player');
-	var joc = document.getElementById('joc');
-	var board = "";
-	for (var i = 0; i < 6; ++i) {
+	let player = document.getElementById('player');
+	let joc = document.getElementById('joc');
+	let message = "Anticipate the teammate's moves!";
+	let alert = document.getElementById('alertMessage'); // gets the div element with the id "alert" (from index.html)
+	
+	let board = "";
+	for (let i = 0; i < 6; ++i) {
 		board += '<div class = "same-line">';
-		for (var j = 0; j < 7; ++j) {
+		for (let j = 0; j < 7; ++j) {
 			board += '<div class = "cell" id  = "' + i + j + '" onclick="place(' + i + ', ' + j + ')" ></div>';
 		}
 		board += '</div>'; 
 	}
 	player.innerHTML = currentPlayer;
 	joc.innerHTML = board;
+	alert.innerHTML = message;
 };
 function place(i, j) {
+	let freeCells = 0;
+	let count = 0;
+	let test;  // it saves the element found most often (ie 3 times or 3 valid pairs after consecutive comparisons)
 	if (isGameFinished) {
-		alert("GAME OVER");
+		message = "GAME OVER";
+		showAlert(message);
 		return;
 	}
 	if (board[i][j] != ' ') {
-		alert("The cell is already occupied!");
+		message = "The cell is already occupied!";
+		showAlert(message);
 		return;
 	}
 	if (i < 5 && board[i + 1][j] == ' ') {
-		alert("Illegal move!");
+		message = "Illegal move!";
+		showAlert(message);
 		return;
 	}
 	board[i][j] = currentPlayer; 
@@ -48,18 +58,22 @@ function place(i, j) {
   	cell.innerHTML = board[i][j];
   	gameFinished();
 }
-function gameFinished() {
-	var winner = '-';
-	var freeCells = 0;
-	var count = 0;
-	var test;  // it saves the element found most often (ie 3 times or 3 valid pairs after consecutive comparisons)
-
+function showAlert() {
+	alert = document.getElementById('alertMessage');
+	alert.innerHTML = message;
+	alertMessage.classList.add("show");
+	// To hide the message after a few seconds
+  	setTimeout(function() {
+  	alertMessage.classList.remove("show");
+  	}, 3000);
+}
+function checkLines() {
 	//  The main diagonal 0.0 -> 5.5 and two parallels down 1.0 -> 5.4 / 2.0 -> 5.3 are traversed
-  	for (var x = 0; x < 3; ++x) {  
+  	for (let x = 0; x < 3; ++x) {  
 	    count = 0;
 	    test = 3; 
-	    for (var i = x; i < 6; ++i) {
-	      	var j = i - x;
+	    for (let i = x; i < 6; ++i) {
+	      	let j = i - x;
 	      	if (board[i][j] != ' ') {  // we look for the first element (0,0) and if it exists, we check it
 	        	if (test == board[i][j]) {  // on the first search, we save the first element found when traversing the board on the main diagonal
 	        	                            //  and on the second valid search we check if the next element is found immediately
@@ -79,11 +93,11 @@ function gameFinished() {
 	    }
     }
     //  The second main diagonal is traversed 0.1 -> 5.6 and two parallels upwards 0.2 -> 4.6 / 0.3 -> 3.6
-    for (var x = 1; x < 4; ++x) {  
+    for (let x = 1; x < 4; ++x) {  
 	    count = 0;
-	    var test = 3;  
-	    for (var i = 0; i <= 6 - x; ++i) {
-	      	var j = i + x;
+	    let test = 3;  
+	    for (let i = 0; i <= 6 - x; ++i) {
+	      	let j = i + x;
 	      	if (board[i][j] != ' ') {  
 	        	if (test == board[i][j]) { 
 	        	++count;  
@@ -101,12 +115,12 @@ function gameFinished() {
 	    }
     }
     //  Cross the secondary diagonal 0.6 -> 5.1 and two parallels down 1.6 -> 5.2 / 2.6 -> 5.3
-    for (var x = 0; x < 3; ++x) {  
+    for (let x = 0; x < 3; ++x) {  
 	    count = 0;
-	    var c = x;
-	    var test = 3;  
-	    for (var i = x; i < 6; ++i) {
-	      	var j = 6 - i + x;
+	    let c = x;
+	    let test = 3;  
+	    for (let i = x; i < 6; ++i) {
+	      	let j = 6 - i + x;
 	      	a = i;
 	        b = j;
 	      	if (board[i][j] != ' ') { 
@@ -126,11 +140,11 @@ function gameFinished() {
 	    }
     }
     //  The second secondary diagonal 0.5 -> 5.0 is traversed and two parallels upwards 0.4 -> 4.0 / 0.3 -> 3.0
-    for (var x = 1; x < 4; ++x) {  
+    for (let x = 1; x < 4; ++x) {  
 	    count = 0;
-	    var test = 3; 
-	    for (var i = 0; i <= 6 - x; ++i) {
-	      	var j = 6 - i - x;
+	    let test = 3; 
+	    for (let i = 0; i <= 6 - x; ++i) {
+	      	let j = 6 - i - x;
 	      	if (board[i][j] != ' ') {  
 	        	if (test == board[i][j]) {  
 	        	++count;   
@@ -148,10 +162,10 @@ function gameFinished() {
 	    }
     }
     // The elements of the game board are checked horizontally
-    for (var i = 0; i < 6; ++i) {   
-		for (var z = 0; z < 4; ++z) {     
+    for (let i = 0; i < 6; ++i) {   
+		for (let z = 0; z < 4; ++z) {     
 			count = 0;                    
-			for (var j = z + 1; j <= 3 + z; ++j) {
+			for (let j = z + 1; j <= 3 + z; ++j) {
 				if (board[i][z] == board[i][j] && board[i][z] != ' ') {
 					++count;
 				}
@@ -162,10 +176,10 @@ function gameFinished() {
 		}
 	}
 	//The elements of the game board are checked vertically
-	for (var j = 0; j < 7; ++j) {           
-		for (var z = 0; z < 3; ++z) {
+	for (let j = 0; j < 7; ++j) {           
+		for (let z = 0; z < 3; ++z) {
 			count = 0;
-			for (var i = z + 1; i <= 3 + z; ++i) {
+			for (let i = z + 1; i <= 3 + z; ++i) {
 				if (board[z][j] == board[i][j] && board[z][j] != ' ') {
 					++count;
 				}
@@ -175,9 +189,12 @@ function gameFinished() {
 			}
 		}
 	}
+}
+function gameFinished() {
+	checkLines();
 	// The entire game board is scanned and checked to see if there are any free positions
-	for (var i = 0; i < 6; ++i) {
-		for (var j = 0; j < 7; ++j) {
+	for (let i = 0; i < 6; ++i) {
+		for (let j = 0; j < 7; ++j) {
 			if (board[i][j] == ' ')  {
 				freeCells = 1;
 			}
@@ -185,12 +202,14 @@ function gameFinished() {
 	}
 	if (winner == '1') {
 		isGameFinished = 1;
-		alert("Player 1 a castigat");
+		message = "Player 1 WON";
+		showAlert(message);
 		return;
 	}
 	if (winner == '2') {
 		isGameFinished = 1;
-		alert("Player 2 a castigat");
+		message = "Player 2 WON";
+		showAlert(message);
 		return;
 	}
 	if (freeCells == 0) {
