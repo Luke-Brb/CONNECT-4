@@ -72,6 +72,15 @@ function showAlert() {
 }
 
 function checkLines() {
+	mainDiagOne();
+	mainDiagTwo();
+	secondDiagOne();
+	secondDiagTwo();
+	horzCheck();
+	vertCheck();
+}
+
+function mainDiagOne() {
 	//  The main diagonal 0.0 -> 5.5 and two parallels down 1.0 -> 5.4 / 2.0 -> 5.3 are traversed
   	for (let x = 0; x < 3; ++x) {
 	    count = 0;
@@ -95,7 +104,11 @@ function checkLines() {
 	        	winner = test;  // we also have the value of the winner (element '1 or '2)
 	        }
 	    }
+
     }
+}
+
+function mainDiagTwo() {
     //  The second main diagonal is traversed 0.1 -> 5.6 and two parallels upwards 0.2 -> 4.6 / 0.3 -> 3.6
     for (let x = 1; x < 4; ++x) {
 	    count = 0;
@@ -118,7 +131,10 @@ function checkLines() {
 	        }
 	    }
     }
-    //  Cross the secondary diagonal 0.6 -> 5.1 and two parallels down 1.6 -> 5.2 / 2.6 -> 5.3
+}
+
+function secondDiagOne() {
+//  Cross the secondary diagonal 0.6 -> 5.1 and two parallels down 1.6 -> 5.2 / 2.6 -> 5.3
     for (let x = 0; x < 3; ++x) {
 	    count = 0;
 	    let c = x;
@@ -143,6 +159,9 @@ function checkLines() {
 	        }
 	    }
     }
+}
+
+function secondDiagTwo() {
     //  The second secondary diagonal 0.5 -> 5.0 is traversed and two parallels upwards 0.4 -> 4.0 / 0.3 -> 3.0
     for (let x = 1; x < 4; ++x) {
 	    count = 0;
@@ -165,6 +184,9 @@ function checkLines() {
 	        }
 	    }
     }
+}
+
+function horzCheck() {
     // The elements of the game board are checked horizontally
     for (let i = 0; i < 6; ++i) {
 		for (let z = 0; z < 4; ++z) {
@@ -179,6 +201,9 @@ function checkLines() {
 			}
 		}
 	}
+}
+
+function vertCheck() {
 	//The elements of the game board are checked vertically
 	for (let j = 0; j < 7; ++j) {
 		for (let z = 0; z < 3; ++z) {
@@ -192,7 +217,7 @@ function checkLines() {
 				winner = board[z][j];
 			}
 		}
-	}	
+	}
 }
 
 function gameFinished() {
