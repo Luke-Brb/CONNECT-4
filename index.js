@@ -8,7 +8,7 @@ let currentPlayer = '1';
 let isGameFinished = 0;
 let freeCells = 0;
 let winner = '-';
-
+let contFreeCell = 0;
 window.onload = function() {
 	let player = document.getElementById('player');
 	let joc = document.getElementById('joc');
@@ -220,9 +220,9 @@ function vertCheck() {
 	}
 }
 
-function gameFinished() {
-	checkLines();
+function cellLeft() {
 	// The entire game board is scanned and checked to see if there are any free positions
+	freeCells = 0;
 	for (let i = 0; i < 6; ++i) {
 		for (let j = 0; j < 7; ++j) {
 			if (board[i][j] == ' ') {
@@ -230,6 +230,10 @@ function gameFinished() {
 			}
 		}
 	}
+}
+
+function gameFinished() {
+	checkLines();
 	if (winner == '1') {
 		isGameFinished = 1;
 		message = "Player 1 WON";
@@ -242,6 +246,7 @@ function gameFinished() {
 		showAlert(message);
 		return;
 	}
+	cellLeft();
 	if (freeCells == 0) {
 		isGameFinished = 1;
 		message = "Moves unavailable!";
