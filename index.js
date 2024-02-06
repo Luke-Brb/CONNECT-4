@@ -9,15 +9,18 @@ let isGameFinished = 0;
 let freeCells = 0;
 let winner = '-';
 let contFreeCell = 0;
+let row = 6;
+let column = 7;
+let pair = 4;
 window.onload = function() {
 	let player = document.getElementById('player');
 	let joc = document.getElementById('joc');
 	let message = "Anticipate the teammate's moves!";
 	let alert = document.getElementById('alertMessage'); // gets the div element with the id "alert" (from index.html)
 	let board = "";
-	for (let i = 0; i < 6; ++i) {
+	for (let i = 0; i < row; ++i) {
 		board += '<div class = "same-line">';
-		for (let j = 0; j < 7; ++j) {
+		for (let j = 0; j < column; ++j) {
 			board += '<div class = "cell" id  = "' + i + j + '" onclick="place(' + i + ', ' + j + ')" ></div>';
 		}
 		board += '</div>';
@@ -85,7 +88,7 @@ function mainDiagOne() {
   	for (let x = 0; x < 3; ++x) {
 	    count = 0;
 	    test = 3; 
-	    for (let i = x; i < 6; ++i) {
+	    for (let i = x; i < row; ++i) {
 	      	let j = i - x;
 	      	if (board[i][j] != ' ') {       // we look for the first element (0,0) and if it exists, we check it
 	        	if (test == board[i][j]) {  // on the first search, we save the first element found when traversing the board on the main diagonal
@@ -110,10 +113,10 @@ function mainDiagOne() {
 
 function mainDiagTwo() {
     //  The second main diagonal is traversed 0.1 -> 5.6 and two parallels upwards 0.2 -> 4.6 / 0.3 -> 3.6
-    for (let x = 1; x < 4; ++x) {
+    for (let x = 1; x < pair; ++x) {
 	    count = 0;
 	    let test = 3;
-	    for (let i = 0; i <= 6 - x; ++i) {
+	    for (let i = 0; i <= row - x; ++i) {
 	      	let j = i + x;
 	      	if (board[i][j] != ' ') {
 	        	if (test == board[i][j]) {
@@ -139,8 +142,8 @@ function secondDiagOne() {
 	    count = 0;
 	    let c = x;
 	    let test = 3;  
-	    for (let i = x; i < 6; ++i) {
-	      	let j = 6 - i + x;
+	    for (let i = x; i < row; ++i) {
+	      	let j = row - i + x;
 	      	a = i;
 	        b = j;
 	      	if (board[i][j] != ' ') {
@@ -163,11 +166,11 @@ function secondDiagOne() {
 
 function secondDiagTwo() {
     //  The second secondary diagonal 0.5 -> 5.0 is traversed and two parallels upwards 0.4 -> 4.0 / 0.3 -> 3.0
-    for (let x = 1; x < 4; ++x) {
+    for (let x = 1; x < row; ++x) {
 	    count = 0;
 	    let test = 3;
-	    for (let i = 0; i <= 6 - x; ++i) {
-	      	let j = 6 - i - x;
+	    for (let i = 0; i <= row - x; ++i) {
+	      	let j = row - i - x;
 	      	if (board[i][j] != ' ') {
 	        	if (test == board[i][j]) {
 	        	++count;
@@ -188,8 +191,8 @@ function secondDiagTwo() {
 
 function horzCheck() {
     // The elements of the game board are checked horizontally
-    for (let i = 0; i < 6; ++i) {
-		for (let z = 0; z < 4; ++z) {
+    for (let i = 0; i < row; ++i) {
+		for (let z = 0; z < pair; ++z) {
 			count = 0;
 			for (let j = z + 1; j <= 3 + z; ++j) {
 				if (board[i][z] == board[i][j] && board[i][z] != ' ') {
@@ -205,7 +208,7 @@ function horzCheck() {
 
 function vertCheck() {
 	//The elements of the game board are checked vertically
-	for (let j = 0; j < 7; ++j) {
+	for (let j = 0; j < column; ++j) {
 		for (let z = 0; z < 3; ++z) {
 			count = 0;
 			for (let i = z + 1; i <= 3 + z; ++i) {
@@ -223,8 +226,8 @@ function vertCheck() {
 function cellLeft() {
 	// The entire game board is scanned and checked to see if there are any free positions
 	freeCells = 0;
-	for (let i = 0; i < 6; ++i) {
-		for (let j = 0; j < 7; ++j) {
+	for (let i = 0; i < row; ++i) {
+		for (let j = 0; j < column; ++j) {
 			if (board[i][j] == ' ') {
 				freeCells = 1;
 			}
