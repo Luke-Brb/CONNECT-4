@@ -31,13 +31,12 @@
 }
 
 .bottom{
-	display:inline-flex;
-	margin-left: 630px;
-	justify-content: center;
+	display: flex;
+  justify-content: center;
+  align-items: center;
 	font-size: 20px;
 	text-transform: full-width;
 	padding: 5px;
-	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 }
 
 .alert {
