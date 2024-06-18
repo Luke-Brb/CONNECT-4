@@ -22,7 +22,7 @@ window.onload = function() {
 	for (let i = 0; i < row; ++i) {
 		board += '<div class = "same-line">';
 		for (let j = 0; j < column; ++j) {
-			board += '<div class = "cell" id  = "' + i + j + '" onclick="place(' + i + ', ' + j + ')" ></div>';
+			board += '<div class = "cell" id= "' + i + j + '" onclick="place(' + i + ', ' + j + ')" ></div>';
 		}
 		board += '</div>';
 	}
